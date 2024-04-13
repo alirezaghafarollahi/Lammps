@@ -7,6 +7,7 @@ There are common steps which should be followd in every atomistic simulation.
 - Define units and boundary conditions
 - Define geometry depending on the crystal structure
 - Define potential parameters including pair/coeff and pair/style
+- Define compute, thermo, and dump styles 
 - Define energy minimization scheme, "cg" or "fire", and parameters such as energy and force criteria. Good values for energy criteri is 0 and for force is 1e-5.
 - Perform the minimization using minimize for 0k and run for finite temperature simulations.
 
