@@ -56,8 +56,8 @@ Lammps can be used to compute the material properties of metals such as:
 Lattice constant is commonly computed at T=0k. 
 -To compute lattice constant we must use "fix 1 all box/relax iso 0" to let the pressure relax in all directions, where we have periodic boundary conditions in all directions. 
 ### Cohesive energy
--Same as lattice constant, cohesive energy computed as T=0 K.
--Cohesive energy is simply the total potential divided by the number of atoms.
+-Same as lattice constant, cohesive energy is computed at T=0 K.
+-Cohesive energy is the total potential divided by the toral number of atoms.
 ### Surface energy
 - Surface energy is computed by the subtraction of two potnetial energies. One with periodic boundary condition and the other with free coundary conditions divided by the area.
 
