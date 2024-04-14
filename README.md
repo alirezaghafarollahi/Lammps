@@ -62,7 +62,8 @@ Lattice constant is commonly computed at T=0k.
 - Surface energy is computed by the subtraction of two potnetial energies. One with periodic boundary condition and the other with free coundary conditions divided by the area.
 
 Here is an example code snippet to compute surface energy: 
-------------------------------------------------
+
+``` lammps
 clear
 units metal
 dimension 3
@@ -94,6 +95,7 @@ fix 1 all box/relax iso 0
 min_style cg
 minimize 0 1e-5 20000 20000
 unfix 1
+```
 
 variable tmp equal pe
 variable E1 equal ${tmp}
