@@ -95,7 +95,6 @@ fix 1 all box/relax iso 0
 min_style cg
 minimize 0 1e-5 20000 20000
 unfix 1
-```
 
 variable tmp equal pe
 variable E1 equal ${tmp}
@@ -114,5 +113,4 @@ variable Area equal "lx"*"lz"
 variable surface_energy equal (${E2}-${E1})/(2*${Area}) $ 2 is because we have two surfaces.
 
 print "surface energy is: ${surface_energy} "
-
------------------------------------------------
+``` 
