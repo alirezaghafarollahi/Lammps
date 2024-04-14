@@ -12,7 +12,8 @@ There are common steps which should be followd in every atomistic simulation.
 - Perform the minimization using minimize for 0k and run for finite temperature simulations.
 
 Here is an example code 
-------------------------
+
+``` lammps
 clear
 units metal
 dimension 3
@@ -44,7 +45,7 @@ fix 1 all box/relax iso 0
 min_style cg
 minimize 0 1e-5 20000 20000
 unfix 1
---------------------------
+```
 ## Material properties
 Lammps can be used to compute the material properties of metals such as:
  - Lattice constant
