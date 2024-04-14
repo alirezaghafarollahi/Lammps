@@ -114,6 +114,111 @@ variable surface_energy equal (${E2}-${E1})/(2*${Area}) $ 2 is because we have t
 
 print "surface energy is: ${surface_energy} "
 ``` 
-This function also accepts optional arguments `index_col` and `default_index_type`.
 
-- `index_col` is the column name to use as the index, default is None.
+## Defect studies
+We can also use Lammps to generate defects such as screw and edge dislocations
+
+Here is an exmple to insert a <111> screw dislocation in a BCC material with periodic boundary conditions
+
+```lammps
+clear 
+units metal
+dimension 3
+boundary p s p
+atom_style atomic
+ 
+read_data ./structure.inp
+include ./potential.inp
+ 
+variable lattice_param equal 3.238
+ 
+change_box all triclinic
+ 
+variable x_spacing equal (sqrt(6.0))
+variable y_spacing equal (sqrt(2.0))
+variable z_spacing equal (sqrt(3.0)/2)
+ 
+variable x_num_cells equal 5
+variable y_num_cells equal 10
+variable z_num_cells equal 2
+ 
+lattice bcc ${lattice_param} orient x 1 -1 2 orient y 1  1 0 orient z -1 1 1 origin  0 0 0 spacing ${x_spacing} ${y_spacing} ${z_spacing}
+ 
+variable mid equal -0.1
+ 
+region bot_region block INF INF INF ${mid} INF INF units box
+region top_region block INF INF ${mid} INF INF INF units box
+ 
+group bot region bot_region
+group top region top_region
+############################################################################################
+#--- insert dislocation 1 -------------------------------------------------#
+############################################################################################
+variable Bz equal zlat
+variable bz equal ${Bz}
+ 
+variable Xmin_t equal bound(top,xmin)
+variable Xmax_t equal bound(top,xmax)
+
+displace_atoms top ramp z -${bz} 0 x ${Xmin_t} ${Xmax_t} units box
+ 
+compute peratom all pe/atom
+compute pe      all pe
+compute 1 all property/atom x y z
+ 
+variable thermotime equal 100
+ 
+thermo_style custom step temp pe etotal pxx pxy pxz pyy pyz pzz vol fnorm
+thermo_modify format float %10.8g
+thermo ${thermotime}
+ 
+#Output files
+#dump 100 all custom 10000 dump.out.1.* id type x y z c_peratom
+
+##################### minimization #########################
+variable iii loop 10
+variable tol equal 0.1
+ 
+reset_timestep 0 
+label min
+ 
+fix 1 all box/relax x 0.0 z 0.0 xz 0.0
+min_style cg
+minimize 0.0 1e-4 20000 200000
+unfix 1
+min_style cg
+minimize 0.0 1e-4 20000 200000
+ 
+variable press_x equal abs(pxx)
+variable press_z equal abs(pzz)
+variable press_xz equal abs(pxz)
+variable Fn equal "fnorm"
+ 
+if "${Fn} < 1e-4 && ${press_x} < ${tol} && ${press_z} < ${tol} && ${press_xz} < ${tol}" then "jump SELF exit_label3"
+ 
+next iii
+jump SELF min
+ 
+label exit_label3
+ 
+#undump 100
+##################### minimization #########################
+reset_timestep 0
+dump 2 all custom 1 dump.screw.1 id type x y z c_peratom
+dump_modify 2 sort id
+dump_modify 2 format line "%d %d %.8e %.8e %.8e %.8e"
+run 0
+undump 2
+ 
+write_data data.screw.1
+
+
+variable tmp equal "pe"
+variable E1 equal ${tmp}
+variable str_E1 format E1 "%.10e"
+variable tmp delete
+
+print '${str_E1}' append ${energy_file}
+
+quit
+```
