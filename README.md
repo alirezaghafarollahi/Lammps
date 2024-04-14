@@ -9,10 +9,9 @@ There are common steps which should be followed in every lammps atomistic simula
 - Define potential parameters including pair/coeff and pair/style
 - Define compute, thermo, and dump parameters 
 - Define energy minimization scheme, `cg` or `fire`
-- Perform the minimization using `minimize etol ftol maxiter maxeval` for 0k and `run N` for finite temperature simulations.
-  -- `etol` and `ftol` are stopping tolerence for energy and force, respectively. 
+- Perform the minimization using `minimize etol ftol maxiter maxeval` for 0k and `run N` for finite temperature simulations. `etol` and `ftol` are stopping tolerence for energy and force, respectively. 
 
-Here is an example code 
+Here is an example code for energy minimization at T=0
 
 ``` lammps
 clear
