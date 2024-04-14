@@ -1,14 +1,14 @@
 # Lammps
  Lammps is a software tool used for molecular dynamics simulations. 
 
-## Steps to perform simulations 
-There are common steps which should be followd in every atomistic simulation. 
+## Steps to perform a lammps simulations 
+There are common steps which should be followed in every lammps atomistic simulation. 
 
 - Define units and boundary conditions
-- Define geometry depending on the crystal structure
+- Define geometry
 - Define potential parameters including pair/coeff and pair/style
-- Define compute, thermo, and dump styles 
-- Define energy minimization scheme, "cg" or "fire", and parameters such as energy and force criteria. Good values for energy criteri is 0 and for force is 1e-5.
+- Define compute, thermo, and dump parameters 
+- Define energy minimization scheme, "cg" or "fire", and parameters such as energy and force criteria.
 - Perform the minimization using minimize for 0k and run for finite temperature simulations.
 
 Here is an example code 
@@ -114,3 +114,6 @@ variable surface_energy equal (${E2}-${E1})/(2*${Area}) $ 2 is because we have t
 
 print "surface energy is: ${surface_energy} "
 ``` 
+This function also accepts optional arguments `index_col` and `default_index_type`.
+
+- `index_col` is the column name to use as the index, default is None.
