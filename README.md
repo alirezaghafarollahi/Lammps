@@ -118,7 +118,7 @@ print "surface energy is: ${surface_energy} "
 ## Defect studies
 We can also use Lammps to generate defects such as screw and edge dislocations
 
-Here is an exmple to insert a <111> screw dislocation in a BCC material with periodic boundary conditions
+Here is an exmple to insert a <111> screw dislocation in a BCC material with periodic boundary conditions along the line direction and gilde direction.
 
 ```lammps
 clear 
